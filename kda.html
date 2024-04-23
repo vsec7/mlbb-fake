@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MLBB Fake Hero KDA Generator</title>
+</head>
+<body>
+    <center>
+        <h1> MLBB Fake Hero KDA Generator</h1>
+        <form>
+            <label for="hero">Select Hero:</label>
+            <select id="hero"></select>
+            <br><br>
+            <label for="k">Kill:</label>
+            <input type="number" id="k" value="50">
+            <br>
+            <br>
+            <label for="d">Dead:</label>
+            <input type="number" id="d" value="1">
+            <br>
+            <br>
+            <label for="a">Assists:</label>
+            <input type="number" id="a" value="10">
+            <br><br>
+            <label for="stat">Status:</label>
+            <select id="stat">
+                <option value="1"> Savage </option>
+                <option value="2"> Maniac </option>
+                <option value="3"> MVP </option>
+                <option value="4"> Legendary </option>
+            </select>
+        </form>
+
+        <br>
+        <label for="result">Code:</label> 
+        <input id="result" type="text">
+        <br><br>
+        <b> *Note: <br> Copy and paste code on chat when select hero <br> Only works on Classic / Custom Mode</b>
+        <hr>
+        2024 | Crafted by <a href="https://github.com/vsec7"> github.com/vsec7 </a>
+    </center>
+
+  <script>
+
+    fetch('https://gist.githubusercontent.com/vsec7/73c6dedea092fca8e0a94d448000226c/raw/ae35324ad67cff78ef09743d533bf108bd810861/mlbb-hero.json')
+      .then(response => response.json())
+      .then(r => {
+        const selectElement = document.getElementById('hero');
+        r.data.forEach(hero => {
+          const option = document.createElement('option');
+          option.value = hero.mlid;
+          option.textContent = hero.hero_name;
+          selectElement.appendChild(option);
+        });
+      })
+      .catch(error => console.error('Error fetching JSON:', error));
+
+    document.getElementById('hero').addEventListener('input', updateForm);
+    document.getElementById('k').addEventListener('input', updateForm);
+    document.getElementById('d').addEventListener('input', updateForm);
+    document.getElementById('a').addEventListener('input', updateForm);
+    document.getElementById('stat').addEventListener('input', updateForm);
+
+    function updateForm() {
+      const hero = document.getElementById('hero').value;
+      const k = document.getElementById('k').value;
+      const d = document.getElementById('d').value;
+      const a = document.getElementById('a').value;
+      const stat = document.getElementById('stat').value;
+      document.getElementById('result').value = "7/" + stat + "/" + k + "/"+ d +"/" + a + "/" + hero;
+    }
+
+  </script>
+</body>
+</html>
