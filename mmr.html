@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MLBB Fake Hero MMR Generator</title>
+</head>
+<body>
+    <center>
+        <h1> MLBB Fake Hero MMR Generator</h1>
+        <form>
+            <label for="hero">Select Hero:</label>
+            <select id="hero"></select>
+            <br>
+            <label for="no">Global No:</label>
+            <input type="number" id="no" value="1">
+            <br>
+            <label for="no">MMR:</label>
+            <input type="number" id="mmr" value="9999">
+        </form>
+
+        <br>
+        <label for="result">Code:</label> 
+        <input id="result" type="text">
+        <br><br>
+        <b> *Note: <br> Copy and paste code on chat when select hero <br> Only works on Classic / Custom Mode</b>
+        <hr>
+        2024 | Crafted by <a href="https://github.com/vsec7"> github.com/vsec7 </a>
+    </center>
+
+  <script>
+
+    fetch('https://gist.githubusercontent.com/vsec7/73c6dedea092fca8e0a94d448000226c/raw/ae35324ad67cff78ef09743d533bf108bd810861/mlbb-hero.json')
+      .then(response => response.json())
+      .then(r => {
+        const selectElement = document.getElementById('hero');
+        r.data.forEach(hero => {
+          const option = document.createElement('option');
+          option.value = hero.mlid;
+          option.textContent = hero.hero_name;
+          selectElement.appendChild(option);
+        });
+      })
+      .catch(error => console.error('Error fetching JSON:', error));
+
+    document.getElementById('hero').addEventListener('input', updateForm);
+    document.getElementById('no').addEventListener('input', updateForm);
+
+    function updateForm() {
+      const hero = document.getElementById('hero');
+      const no = document.getElementById('no').value;
+      const mmr = document.getElementById('mmr').value;
+      document.getElementById('result').value = "3/Global No." + no +" " + hero.options[hero.selectedIndex].text + "/"+ mmr +"/206/" + hero.value;
+    }
+
+  </script>
+</body>
+</html>

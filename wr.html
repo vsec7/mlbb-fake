@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MLBB Fake Hero WinRate Generator</title>
+</head>
+<body>
+  <center>
+      <h1> MLBB Fake Hero WinRate Generator</h1>
+      <form>
+        <label for="hero">Select Hero:</label>
+        <select id="hero"></select>
+        <br>
+        <label for="winrate">Winrate (%):</label>
+        <input type="number" id="winrate" min="0" max="100" value="99">
+        <br>
+        <label for="total-match">Total Matches:</label>
+        <input type="number" id="total-match" value="9999">
+      </form>
+
+      <br>
+      <label for="result">Code:</label> 
+      <input id="result" type="text">
+      <br><br>
+      <b> *Note: <br> Copy and paste code on chat when select hero <br> Only works on Classic / Custom Mode</b>
+      <hr>
+      2024 | Crafted by <a href="https://github.com/vsec7"> github.com/vsec7 </a>
+  </center>
+
+  <script>
+
+    fetch('https://gist.githubusercontent.com/vsec7/73c6dedea092fca8e0a94d448000226c/raw/ae35324ad67cff78ef09743d533bf108bd810861/mlbb-hero.json')
+      .then(response => response.json())
+      .then(r => {
+        const selectElement = document.getElementById('hero');
+        r.data.forEach(hero => {
+          const option = document.createElement('option');
+          option.value = hero.mlid;
+          option.textContent = hero.hero_name;
+          selectElement.appendChild(option);
+        });
+      })
+      .catch(error => console.error('Error fetching JSON:', error));
+
+    document.getElementById('hero').addEventListener('input', updateForm);
+    document.getElementById('winrate').addEventListener('input', updateForm);
+    document.getElementById('total-match').addEventListener('input', updateForm);
+
+    function updateForm() {
+      const hero = document.getElementById('hero').value;
+      const winrate = document.getElementById('winrate').value;
+      const totalMatch = document.getElementById('total-match').value;
+      document.getElementById('result').value = "5/" + Math.round(totalMatch * ( winrate / 100 )) +"/" + totalMatch + "/" + hero;
+    }
+
+  </script>
+</body>
+</html>
